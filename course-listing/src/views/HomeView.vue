@@ -1,9 +1,21 @@
+
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+
+  
+import { VDataTable}  from '../../node_modules/vuetify/lib/components/VDataTable'
+  const items = [
+    {
+      name: 'African Elephant',
+      species: 'Loxodonta africana',
+      diet: 'Herbivore',
+      habitat: 'Savanna, Forests',
+    },
+    // ... more items
+  ]
+</script> 
 
 <template>
   <main>
-    <TheWelcome />
-  </main>
+    <v-data-table :items="items"></v-data-table>
+ </main>
 </template>
