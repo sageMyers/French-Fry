@@ -32,7 +32,7 @@
       editedItem: {
         courseNumber: '',
         department: '',
-        courseLevel: '',
+        courseLevel: 0,
         courseHours: 0,
         courseName: '',
         courseDescription: '',
@@ -40,7 +40,7 @@
       defaultItem: {
         courseNumber: '',
         department: '',
-        courseLevel: '',
+        courseLevel: 0,
         courseHours: 0,
         courseName: '',
         courseDescription: '',
@@ -72,7 +72,7 @@
           {
             courseNumber: 'CMSC-1001',
             department: 'Computer Science',
-            courseLevel: 'Freshman',
+            courseLevel: '1',
             courseHours: '1',
             courseName: 'Programming I',
             courseDescription:
@@ -81,7 +81,7 @@
           {
             courseNumber: 'CMSC-1002',
             department: 'Computer Science',
-            courseLevel: 'Freshman',
+            courseLevel: '1',
             courseHours: '1',
             courseName: 'Programming II',
             courseDescription:
@@ -90,7 +90,7 @@
           {
             courseNumber: 'ENGR-1003',
             department: 'Engineering',
-            courseLevel: 'Freshman',
+            courseLevel: '2',
             courseHours: '1',
             courseName: 'Engineering 101',
             courseDescription:
@@ -142,52 +142,6 @@
       },
     },
   }
-
-  // export default {
-  //   data() {
-  //     return {
-  //       page: 1,
-  //       itemsPerPage: 5,
-  //       headers: [
-  //         {
-  //           align: 'start',
-  //           key: 'name',
-  //           sortable: false,
-  //           title: 'Courses',
-  //         },
-  //         { title: 'Course #', key: 'courseNumber' },
-  //         { title: 'Department', key: 'department' },
-  //         { title: 'Course Level', key: 'courseLevel' },
-  //         { title: 'Course Hours', key: 'courseHours' },
-  //         { title: 'Course Name', key: 'courseName' },
-  //         { title: 'Course Description', key: 'courseDescription'}
-  //       ],
-  //       courses: [
-  //         {
-  //           courseNumber: 'CMSC-1001',
-  //           department: 'Computer Science',
-  //           courseLevel: 'Freshman',
-  //           courseHours: '1',
-  //           courseName: 'Programming I',
-  //           courseDescription: 'This is a really really cool course taught by Pat Smith!'
-  //         },
-  //         {
-  //           courseNumber: 'CMSC-1002',
-  //           department: 'Computer Science',
-  //           courseLevel: 'Freshman',
-  //           courseHours: '1',
-  //           courseName: 'Programming II',
-  //           courseDescription: 'This is a really really cool course taught by Pat Smith!'
-  //         },
-  //       ]
-  //     }
-  //   },
-  //   computed: {
-  //     pageCount() {
-  //       return Math.ceil(this.courses.length / this.itemsPerPage)
-  //     },
-  //   },
-  // }
 </script>
 
 <template>
@@ -315,53 +269,13 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <!-- <template v-slot:item.courseDescription="{ item }">
-        <v-icon icon="mdi-information" class="me-2" size="small" @click="editItem(item)">
-          mdi-information
-        </v-icon>
-        
-      </template> -->
       <template v-slot:item.actions="{ item }">
         <v-icon icon="mdi-pencil" color="#624DE3" class="me-2" size="small" @click="editItem(item)">
           mdi-pencil
         </v-icon>
         <v-icon size="small" color="#A30D11" @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
-      <!-- <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize"> Reset </v-btn>
-      </template> -->
     </v-data-table>
-
-    <!-- <div style="margin: 5%;">
-        <v-data-table :page="page" :headers="headers" :search="search" :items="courses" :items-per-page="itemsPerPage">
-          <template v-slot:top>
-            <v-card style="display:flex">
-              <v-text-field
-                v-model="search"
-                label="Search"
-                prepend-inner-icon="mdi-magnify"
-                variant="outlined"
-                hide-details
-                single-line
-                style="width:auto;"
-              ></v-text-field>
-              <v-btn color="#624DE3" style="float:right; margin:10px">+ Add Course</v-btn>
-            </v-card>
-          </template>
-          <template v-slot:item.actions="{ item }">
-            <v-icon class="me-2" size="small" @click="editItem(item)">
-              mdi-pencil
-            </v-icon>
-            <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
-          </template>
-          
-          <template v-slot:bottom>
-            <v-pagination v-model="page" :length="pageCount" ></v-pagination>
-          </template>
-
-        </v-data-table>
-        
-      </div> -->
   </main>
 </template>
 
