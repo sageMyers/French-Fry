@@ -9,8 +9,8 @@ import { createVuetify } from "vuetify";
 
 // Styles
 import "vuetify/styles";
-// import "@mdi/font/css/materialdesignicons.css";
-
+import "@mdi/font/css/materialdesignicons.css";
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 
 const myCustomLightTheme = {
@@ -37,6 +37,10 @@ const vuetify = createVuetify({
   },
   icons: {
     defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi,
+    },
   },
 });
 
