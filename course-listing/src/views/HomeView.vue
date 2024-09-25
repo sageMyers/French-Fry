@@ -157,7 +157,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="#F7F6FE">
-          <v-toolbar-title style="margin-left: 20px;"><b>Courses</b></v-toolbar-title>
+          <v-toolbar-title style="margin-left: 20px;"><b>Courses List</b></v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <div style="width:30%">
