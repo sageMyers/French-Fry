@@ -92,14 +92,18 @@ import courseService from "../services/courseService";
         this.dialogDelete = true
       },
 
-      deleteItemConfirm() {
-        courseService.deleteCourse(this.editedItem.courseid)  
+      async deleteItemConfirm() {
+        let success = await courseService.deleteCourse(this.editedItem.courseid)  
         .then(() => {
-          this.courses.splice(this.editedIndex, 1)
+          return true
         })
         .catch((e) => {
           console.log(e)
+          return false
         });
+        if(success === true){
+          this.courses.splice(this.editedIndex, 1)
+        }
         this.closeDelete()
       },
 
