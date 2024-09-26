@@ -7,7 +7,7 @@ export default {
     createCourse(data) {
       return apiClient.post(`/api/courses`, data);
     },
-    updateCourse(data) {
+    updateCourse(id,data) {
       return apiClient.put(`/api/courses/${id}`, data);
     },
     deleteCourse(id) {

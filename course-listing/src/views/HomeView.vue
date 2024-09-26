@@ -93,16 +93,13 @@ import courseService from "../services/courseService";
       },
 
       deleteItemConfirm() {
-        // courseService.deleteCourse(this.editedItem.courseid)  
-        // .then(() => {
-        //   this.courses.splice(this.editedIndex, 1)
-        // })
-        // .catch((e) => {
-        //   console.log(e)
-        // });
-        // this.closeDelete()
-            //delete code below once backend is added for this 
-        this.courses.splice(this.editedIndex, 1)
+        courseService.deleteCourse(this.editedItem.courseid)  
+        .then(() => {
+          this.courses.splice(this.editedIndex, 1)
+        })
+        .catch((e) => {
+          console.log(e)
+        });
         this.closeDelete()
       },
 
