@@ -1,6 +1,6 @@
 import axios from "axios";
 
-var baseurl = "http://localhost/"
+var baseurl = "http://localhost:3100"
 
 const apiClient = axios.create({
   baseURL: baseurl,
@@ -9,7 +9,10 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "Access-Control-Allow-Origin": "*",
-    crossDomain: true,
-  }
+  },
+  transformResponse: function (data) {
+    data = JSON.parse(data);
+    return data;
+  },
 });
 export default apiClient;

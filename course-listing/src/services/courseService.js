@@ -14,3 +14,4 @@ export default {
       return apiClient.delete(`/api/courses/${id}`);
     },
   };
+  
