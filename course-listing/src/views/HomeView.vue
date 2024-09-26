@@ -8,7 +8,8 @@
   import { VToolbar }  from '../../node_modules/vuetify/lib/components/VToolbar'
   import { VDivider }  from '../../node_modules/vuetify/lib/components/VDivider'
   import { VDialog }  from '../../node_modules/vuetify/lib/components/VDialog'
-  
+
+import courseService from "../services/courseService";
 
 </script>
 
@@ -20,7 +21,7 @@
       search: '',
       headers: [
         { title: 'Course #', key: 'courseNumber' },
-        { title: 'Department', key: 'department' },
+        { title: 'Department', key: 'dept' },
         { title: 'Course Level', key: 'courseLevel' },
         { title: 'Course Hours', key: 'courseHours' },
         { title: 'Course Name', key: 'courseName' },
@@ -30,16 +31,18 @@
       courses: [],
       editedIndex: -1,
       editedItem: {
+        courseID: 0,
         courseNumber: '',
-        department: '',
+        dept: '',
         courseLevel: 0,
         courseHours: 0,
         courseName: '',
         courseDescription: '',
       },
       defaultItem: {
+        courseID: 0,
         courseNumber: '',
-        department: '',
+        dept: '',
         courseLevel: 0,
         courseHours: 0,
         courseName: '',
@@ -68,35 +71,13 @@
 
     methods: {
       initialize() {
-        this.courses = [
-          {
-            courseNumber: 'CMSC-1001',
-            department: 'Computer Science',
-            courseLevel: '1',
-            courseHours: '1',
-            courseName: 'Programming I',
-            courseDescription:
-              'This is a really really cool course taught by Pat Smith!',
-          },
-          {
-            courseNumber: 'CMSC-1002',
-            department: 'Computer Science',
-            courseLevel: '1',
-            courseHours: '1',
-            courseName: 'Programming II',
-            courseDescription:
-              'This is a really really cool course taught by Pat Smith!',
-          },
-          {
-            courseNumber: 'ENGR-1003',
-            department: 'Engineering',
-            courseLevel: '2',
-            courseHours: '1',
-            courseName: 'Engineering 101',
-            courseDescription:
-              'This is a really really cool course taught by someone other than Pat Smith! And a lot of other useless infomration is also contained in this lon lon lon lom on long description of this crazy calss for testing! This is a really really cool course taught by someone other than Pat Smith! And a lot of other useless infomration is also contained in this lon lon lon lom on long description of this crazy calss for testing! This is a really really cool course taught by someone other than Pat Smith! And a lot of other useless infomration is also contained in this lon lon lon lom on long description of this crazy calss for testing! This is a really really cool course taught by someone other than Pat Smith! And a lot of other useless infomration is also contained in this lon lon lon lom on long description of this crazy calss for testing! ',
-          },
-        ]
+        courseService.getAllCourses()
+        .then((response) => {
+          this.courses = response.data;
+        })
+        .catch((e) => {
+          console.log(e)
+        });
       },
 
       editItem(item) {
@@ -112,7 +93,13 @@
       },
 
       deleteItemConfirm() {
-        this.courses.splice(this.editedIndex, 1)
+        courseService.deleteCourse(this.editedItem.courseid)  
+        .then(() => {
+          this.courses.splice(this.editedIndex, 1)
+        })
+        .catch((e) => {
+          console.log(e)
+        });
         this.closeDelete()
       },
 
