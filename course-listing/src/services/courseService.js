@@ -5,6 +5,8 @@ export default {
       return apiClient.get(`/api/courses`);
     },
     createCourse(data) {
+      console.log("create course");
+      console.log(data);
       return apiClient.post(`/api/courses`, data);
     },
     updateCourse(id,data) {
