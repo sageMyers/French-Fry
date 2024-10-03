@@ -100,15 +100,18 @@ export default {
       this.dialogDelete = true
     },
 
-    deleteItemConfirm() {
-      courseService.deleteCourse(this.editedItem.courseID)
-        .then(() => {
-          this.courses.splice(this.editedIndex, 1)
-          this.showSnackbar('Course deleted successfully', 'success')
-        })
-        .catch((error) => {
-          this.showSnackbar(`Error deleting course: ${error.message}`, 'error')
-        })
+    async deleteItemConfirm() {
+      let success = await courseService.deleteCourse(this.editedItem.courseid)  
+      .then(() => {
+        return true
+      })
+      .catch((e) => {
+        console.log(e)
+        return false
+      });
+      if(success === true){
+        this.courses.splice(this.editedIndex, 1)
+      }
       this.closeDelete()
     },
 
