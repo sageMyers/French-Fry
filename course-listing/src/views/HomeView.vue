@@ -168,8 +168,7 @@ export default {
       :headers="headers"
       :items="courses"
       :search="search"
-      :sort-by="[{ key: 'courseNumber', order: 'asc' }]"
-    >
+      :sort-by="[{ key: 'courseNumber', order: 'asc' }]">
       <template v-slot:top>
         <v-toolbar flat color="#F7F6FE">
           <v-toolbar-title style="margin-left: 20px;"><b>Courses List</b></v-toolbar-title>
@@ -199,7 +198,6 @@ export default {
               <v-card-title style="text-align: center;">
                 <span class="text-h6">{{ formTitle }}</span>
               </v-card-title>
-
               <v-card-text>
                 <v-container>
                   <v-row>
@@ -248,7 +246,6 @@ export default {
                   </v-row>
                 </v-container>
               </v-card-text>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <div style="float:right">
