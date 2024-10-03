@@ -1,138 +1,162 @@
 <script setup>
+import { VBtn } from '../../node_modules/vuetify/lib/components/VBtn'
+import { VDataTable } from '../../node_modules/vuetify/lib/components/VDataTable'
+import { VTextField } from '../../node_modules/vuetify/lib/components/VTextField'
+import { VCard } from '../../node_modules/vuetify/lib/components/VCard'
+import { VIcon } from '../../node_modules/vuetify/lib/components/VIcon'
+import { VToolbar } from '../../node_modules/vuetify/lib/components/VToolbar'
+import { VDivider } from '../../node_modules/vuetify/lib/components/VDivider'
+import { VDialog } from '../../node_modules/vuetify/lib/components/VDialog'
+import { VSnackbar } from '../../node_modules/vuetify/lib/components/VSnackbar'
 
-  import { VBtn }  from '../../node_modules/vuetify/lib/components/VBtn'
-  import { VDataTable }  from '../../node_modules/vuetify/lib/components/VDataTable'
-  import { VTextField }  from '../../node_modules/vuetify/lib/components/VTextField'
-  import { VCard }  from '../../node_modules/vuetify/lib/components/VCard'
-  import { VIcon }  from '../../node_modules/vuetify/lib/components/VIcon'
-  import { VToolbar }  from '../../node_modules/vuetify/lib/components/VToolbar'
-  import { VDivider }  from '../../node_modules/vuetify/lib/components/VDivider'
-  import { VDialog }  from '../../node_modules/vuetify/lib/components/VDialog'
-
-import courseService from "../services/courseService";
-
+import courseService from '../services/courseService'
 </script>
 
 <script>
-  export default {
-    data: () => ({
-      dialog: false,
-      dialogDelete: false,
-      search: '',
-      headers: [
-        { title: 'Course #', key: 'courseNumber' },
-        { title: 'Department', key: 'dept' },
-        { title: 'Course Level', key: 'courseLevel' },
-        { title: 'Course Hours', key: 'courseHours' },
-        { title: 'Course Name', key: 'courseName' },
-        { title: 'Course Description', key: 'courseDescription' },
-        { title: 'Actions', key: 'actions', sortable: false },
-      ],
-      courses: [],
-      editedIndex: -1,
-      editedItem: {
-        courseID: 0,
-        courseNumber: '',
-        dept: '',
-        courseLevel: 0,
-        courseHours: 0,
-        courseName: '',
-        courseDescription: '',
-      },
-      defaultItem: {
-        courseID: 0,
-        courseNumber: '',
-        dept: '',
-        courseLevel: 0,
-        courseHours: 0,
-        courseName: '',
-        courseDescription: '',
-      },
-    }),
-
-    computed: {
-      formTitle() {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
+export default {
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    search: '',
+    snackbar: false,  // For showing toast messages
+    snackbarMessage: '',  // Message content for the snackbar
+    snackbarColor: '',  // Color of the snackbar (success or error)
+    headers: [
+      { title: 'Course #', key: 'courseNumber' },
+      { title: 'Department', key: 'dept' },
+      { title: 'Course Level', key: 'courseLevel' },
+      { title: 'Course Hours', key: 'courseHours' },
+      { title: 'Course Name', key: 'courseName' },
+      { title: 'Course Description', key: 'courseDescription' },
+      { title: 'Actions', key: 'actions', sortable: false }
+    ],
+    courses: [],
+    editedIndex: -1,
+    editedItem: {
+      courseID: 0,
+      courseNumber: '',
+      dept: '',
+      courseLevel: 0,
+      courseHours: 0,
+      courseName: '',
+      courseDescription: ''
     },
+    defaultItem: {
+      courseID: 0,
+      courseNumber: '',
+      dept: '',
+      courseLevel: 0,
+      courseHours: 0,
+      courseName: '',
+      courseDescription: ''
+    }
+  }),
 
-    watch: {
-      dialog(val) {
-        val || this.close()
-      },
-      dialogDelete(val) {
-        val || this.closeDelete()
-      },
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'New Course' : 'Edit Course'
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      if (!val) this.close()
     },
+    dialogDelete(val) {
+      if (!val) this.closeDelete()
+    }
+  },
 
-    created() {
-      this.initialize()
-    },
+  created() {
+    this.initialize()
+  },
 
-    methods: {
-      initialize() {
-        courseService.getAllCourses()
+  methods: {
+    initialize() {
+      courseService.getAllCourses()
         .then((response) => {
-          this.courses = response.data;
+          this.courses = response.data
         })
-        .catch((e) => {
-          console.log(e)
-        });
-      },
-
-      editItem(item) {
-        this.editedIndex = this.courses.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
-      deleteItem(item) {
-        this.editedIndex = this.courses.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialogDelete = true
-      },
-
-      async deleteItemConfirm() {
-        let success = await courseService.deleteCourse(this.editedItem.courseid)  
-        .then(() => {
-          return true
+        .catch((error) => {
+          this.showSnackbar(`Failed to fetch courses: ${error.message}`, 'error')
         })
-        .catch((e) => {
-          console.log(e)
-          return false
-        });
-        if(success === true){
-          this.courses.splice(this.editedIndex, 1)
-        }
-        this.closeDelete()
-      },
-
-      close() {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      closeDelete() {
-        this.dialogDelete = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      save() {
-        if (this.editedIndex > -1) {
-          Object.assign(this.courses[this.editedIndex], this.editedItem)
-        } else {
-          this.courses.push(this.editedItem)
-        }
-        this.close()
-      },
     },
+
+    showSnackbar(message, color) {
+      this.snackbarMessage = message
+      this.snackbarColor = color === 'success' ? 'green' : 'red'
+      this.snackbar = true
+    },
+
+    editItem(item) {
+      this.editedIndex = this.courses.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.courses.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    async deleteItemConfirm() {
+      let success = await courseService.deleteCourse(this.editedItem.courseid)  
+      .then(() => {
+        return true
+      })
+      .catch((e) => {
+        console.log(e)
+        return false
+      });
+      if(success === true){
+        this.courses.splice(this.editedIndex, 1)
+      }
+      this.closeDelete()
+    },
+
+    close() {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete() {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        // Update existing course
+        Object.assign(this.courses[this.editedIndex], this.editedItem)
+        courseService.updateCourse(this.editedItem.courseID, this.editedItem)
+          .then(() => {
+            this.showSnackbar('Course updated successfully', 'success')
+          })
+          .catch((error) => {
+            this.showSnackbar(`Error updating course: ${error.message}`, 'error')
+          })
+      } else {
+        // Add new course
+        courseService.createCourse(this.editedItem)
+          .then((response) => {
+            this.courses.push(response.data)
+            this.showSnackbar('Course added successfully', 'success')
+          })
+          .catch((error) => {
+            this.showSnackbar(`Error creating course: ${error.message}`, 'error')
+          })
+      }
+      this.close()
+    }
   }
+}
 </script>
 
 <template>
@@ -189,7 +213,7 @@ import courseService from "../services/courseService";
                     <v-col cols="12" md="4" sm="6">
                       <v-text-field
                         class="formField"
-                        v-model="editedItem.department"
+                        v-model="editedItem.dept"
                         label="Department"
                       ></v-text-field>
                     </v-col>
@@ -267,25 +291,30 @@ import courseService from "../services/courseService";
         <v-icon size="small" color="#A30D11" @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
     </v-data-table>
+
+    <!-- Snackbar for displaying success/error messages -->
+    <v-snackbar v-model="snackbar" :color="snackbarColor" top right timeout="3000">
+      {{ snackbarMessage }}
+    </v-snackbar>
   </main>
 </template>
 
 <style>
-  .formField {
-      padding-left: 15px;
-      padding-right: 15px;
-  }
+.formField {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
-  .formBtnConfirm {
-    color: white;
-    background-color:#4D98E3;
-    margin:10px;
+.formBtnConfirm {
+  color: white;
+  background-color:#4D98E3;
+  margin:10px;
 
-  }
+}
 
-  .formBtnCancel {
-    color: white;
-    background-color: #A30D11;
-    margin: 10px;
-  }
+.formBtnCancel {
+  color: white;
+  background-color: #A30D11;
+  margin: 10px;
+}
 </style>
