@@ -162,7 +162,7 @@ export default {
 <template>
   <main>
     <head>
-      <link href="../assets/main.css" rel="stylesheet" />
+      <link href="@/assets/main.css" rel="stylesheet" />
     </head>
     <v-data-table
       :headers="headers"
