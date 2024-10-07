@@ -2,18 +2,18 @@ import apiClient from "./services.js";
 
 export default {
     getAllCourses() {
-      return apiClient.get(`/course-t2`);
+      return apiClient.get(`/`);
     },
     createCourse(data) {
       console.log("create course");
       console.log(data);
-      return apiClient.post(`/course-t2/api/courses`, data);
+      return apiClient.post(`/api/courses`, data);
     },
     updateCourse(id,data) {
-      return apiClient.put(`/course-t2/${id}`, data);
+      return apiClient.put(`/${id}`, data);
     },
     deleteCourse(id) {
-      return apiClient.delete(`/course-t2/${id}`);
+      return apiClient.delete(`/${id}`);
     },
   };
   
