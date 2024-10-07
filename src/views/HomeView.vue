@@ -101,7 +101,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      let success = await courseService.deleteCourse(this.editedItem.courseid)  
+      let success = await courseService.deleteCourse(this.editedItem.courseID)  
       .then(() => {
         return true
       })
