@@ -8,7 +8,6 @@ import { VToolbar } from '../../node_modules/vuetify/lib/components/VToolbar'
 import { VDivider } from '../../node_modules/vuetify/lib/components/VDivider'
 import { VDialog } from '../../node_modules/vuetify/lib/components/VDialog'
 import { VSnackbar } from '../../node_modules/vuetify/lib/components/VSnackbar'
-
 import courseService from '../services/courseService'
 </script>
 
@@ -101,7 +100,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      let success = await courseService.deleteCourse(this.editedItem.courseid)  
+      let success = await courseService.deleteCourse(this.editedItem.courseID)  
       .then(() => {
         return true
       })
@@ -162,7 +161,7 @@ export default {
 <template>
   <main>
     <head>
-      <link href="./assets/main.css" rel="stylesheet" />
+      
     </head>
     <v-data-table
       :headers="headers"
@@ -202,50 +201,50 @@ export default {
 
               <v-card-text>
                 <v-container>
-                  <v-row>
-                    <v-col cols="12" md="4" sm="6">
+                  <v-col>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.courseNumber"
                         label="Course Number"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                        required ></v-text-field>
+                    </v-row>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.dept"
                         label="Department"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                        required ></v-text-field>
+                    </v-row>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.courseLevel"
                         label="Course Level"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                        required ></v-text-field>
+                    </v-row>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.courseHours"
                         label="Course Hours"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                        required ></v-text-field>
+                    </v-row>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.courseName"
                         label="Course Name"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                        required ></v-text-field>
+                    </v-row>
+                    <v-row>
                       <v-text-field
                         class="formField"
                         v-model="editedItem.courseDescription"
                         label="Course Description"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
+                        required ></v-text-field>
+                    </v-row>
+                  </v-col>
                 </v-container>
               </v-card-text>
 
